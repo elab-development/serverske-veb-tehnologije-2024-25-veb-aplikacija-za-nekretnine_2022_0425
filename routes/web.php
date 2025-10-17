@@ -12,12 +12,13 @@ use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
 use App\Http\Controllers\Backend\SettingController;
+use App\Http\Controllers\Backend\RoleController;
  
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CompareController;
-    
+     
 /*   
 |--------------------------------------------------------------------------
 | Web Routes
@@ -287,6 +288,23 @@ Route::controller(SettingController::class)->group(function(){
 
 });
 
+
+ // Permission All Route 
+Route::controller(RoleController::class)->group(function(){
+
+     Route::get('/all/permission', 'AllPermission')->name('all.permission'); 
+     Route::get('/add/permission', 'AddPermission')->name('add.permission');
+     Route::post('/store/permission', 'StorePermission')->name('store.permission'); 
+     Route::get('/edit/permission/{id}', 'EditPermission')->name('edit.permission');
+     Route::post('/update/permission', 'UpdatePermission')->name('update.permission');
+     Route::get('/delete/permission/{id}', 'DeletePermission')->name('delete.permission');  
+
+
+     Route::get('/import/permission', 'ImportPermission')->name('import.permission');
+      Route::get('/export', 'Export')->name('export');
+      Route::post('/import', 'Import')->name('import');
+
+});
 
 
 }); // End Group Admin Middleware
