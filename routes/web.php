@@ -11,6 +11,7 @@ use App\Http\Middleware\RedirectIfAuthenticated;
 use App\Http\Controllers\Backend\StateController;
 use App\Http\Controllers\Backend\TestimonialController;
 use App\Http\Controllers\Backend\BlogController;
+use App\Http\Controllers\Backend\SettingController;
  
 use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Frontend\IndexController;
@@ -52,6 +53,9 @@ Route::middleware('auth')->group(function () {
  Route::get('/user/change/password', [UserController::class, 'UserChangePassword'])->name('user.change.password'); 
 
   Route::post('/user/password/update', [UserController::class, 'UserPasswordUpdate'])->name('user.password.update');
+
+
+  Route::get('/user/schedule/request', [UserController::class, 'UserScheduleRequest'])->name('user.schedule.request'); 
 
 
 
@@ -267,6 +271,24 @@ Route::controller(BlogController::class)->group(function(){
 });
 
 
+ // SMTP Setting  All Route 
+Route::controller(SettingController::class)->group(function(){
+
+     Route::get('/smtp/setting', 'SmtpSetting')->name('smtp.setting');
+     Route::post('/update/smpt/setting', 'UpdateSmtpSetting')->name('update.smpt.setting');  
+
+});
+
+ // Site Setting  All Route 
+Route::controller(SettingController::class)->group(function(){
+
+     Route::get('/site/setting', 'SiteSetting')->name('site.setting');
+     Route::post('/update/site/setting', 'UpdateSiteSetting')->name('update.site.setting');  
+
+});
+
+
+
 }); // End Group Admin Middleware
 
 
@@ -305,7 +327,14 @@ Route::controller(AgentPropertyController::class)->group(function(){
 
       Route::get('/agent/property/message/', 'AgentPropertyMessage')->name('agent.property.message');
 
-      Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details');   
+      Route::get('/agent/message/details/{id}', 'AgentMessageDetails')->name('agent.message.details');  
+
+   // Schedule Request Route 
+    Route::get('/agent/schedule/request/', 'AgentScheduleRequest')->name('agent.schedule.request'); 
+
+     Route::get('/agent/details/schedule/{id}', 'AgentDetailsSchedule')->name('agent.details.schedule'); 
+
+   Route::post('/agent/update/schedule/', 'AgentUpdateSchedule')->name('agent.update.schedule'); 
 
 });
 
@@ -382,4 +411,8 @@ Route::controller(AgentPropertyController::class)->group(function(){
   Route::get('/admin/comment/reply/{id}', [BlogController::class, 'AdminCommentReply'])->name('admin.comment.reply');
 
   Route::post('/reply/message', [BlogController::class, 'ReplyMessage'])->name('reply.message');
+
+
+  // Schedule Message Request Route 
+   Route::post('/store/schedule', [IndexController::class, 'StoreSchedule'])->name('store.schedule');
 
