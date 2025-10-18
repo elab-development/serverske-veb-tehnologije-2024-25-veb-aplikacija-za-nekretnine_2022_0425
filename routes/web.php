@@ -36,7 +36,7 @@ use App\Http\Controllers\Frontend\CompareController;
 // });
 
 // User Frontend All Route 
-Route::get('/', [UserController::class, 'Index']);
+Route::get('/', [UserController::class, 'Index'])->name('index');
 
 
 

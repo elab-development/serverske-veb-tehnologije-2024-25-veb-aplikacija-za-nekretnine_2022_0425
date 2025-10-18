@@ -9,24 +9,15 @@ use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Spatie\Permission\Models\Permission;
  
-/*
- |--------------------------------------------------------------------------
- | AdminController
- |--------------------------------------------------------------------------
- | Handles admin dashboard/auth, profile management, and CRUD operations for
- | admin and agent users, including role assignment and status changes.
- */
 class AdminController extends Controller
 {
-    // Display the admin dashboard view.
     public function AdminDashboard(){
 
         return view('admin.index');
 
     } // End Method  
 
-    // Log out the admin and invalidate the current session.
-    public function AdminLogout(Request $request){
+public function AdminLogout(Request $request){
         Auth::guard('web')->logout();
 
         $request->session()->invalidate();
@@ -42,7 +33,6 @@ class AdminController extends Controller
     }// End Method 
 
 
-    // Show the admin login page.
     public function AdminLogin(){
 
         return view('admin.admin_login');
@@ -50,7 +40,6 @@ class AdminController extends Controller
     }// End Method 
 
 
-    // Show the authenticated admin profile page.
     public function AdminProfile(){
 
         $id = Auth::user()->id;
@@ -60,7 +49,6 @@ class AdminController extends Controller
      }// End Method 
 
 
-     // Update admin profile details and optionally replace the profile photo.
      public function AdminProfileStore(Request $request){
 
         $id = Auth::user()->id;
@@ -73,7 +61,6 @@ class AdminController extends Controller
 
         if ($request->file('photo')) {
             $file = $request->file('photo');
-            // Remove previous photo if it exists and store the new one.
             @unlink(public_path('upload/admin_images/'.$data->photo));
             $filename = date('YmdHi').$file->getClientOriginalName(); 
             $file->move(public_path('upload/admin_images'),$filename);
@@ -93,7 +80,6 @@ class AdminController extends Controller
 
 
 
-     // Show the change password form for the authenticated admin.
      public function AdminChangePassword(){
 
          $id = Auth::user()->id;
@@ -103,7 +89,6 @@ class AdminController extends Controller
      }// End Method 
 
 
-     // Validate and update the authenticated admin password.
      public function AdminUpdatePassword(Request $request){
 
         // Validation 
@@ -144,7 +129,6 @@ class AdminController extends Controller
 
      /////////// Agent User All Method ////////////
  
-  // List all agent users.
   public function AllAgent(){
 
     $allagent = User::where('role','agent')->get();
@@ -152,7 +136,6 @@ class AdminController extends Controller
 
   }// End Method 
 
-  // Show the form to create a new agent.
   public function AddAgent(){
 
     return view('backend.agentuser.add_agent');
@@ -160,7 +143,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Store a newly created agent user.
   public function StoreAgent(Request $request){
 
     User::insert([
@@ -185,7 +167,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Show the form to edit an existing agent user.
   public function EditAgent($id){
 
     $allagent = User::findOrFail($id);
@@ -194,7 +175,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Update basic details of an existing agent user.
   public function UpdateAgent(Request $request){
 
     $user_id = $request->id;
@@ -217,7 +197,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Delete an agent user by id.
   public function DeleteAgent($id){
 
     User::findOrFail($id)->delete();
@@ -232,7 +211,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Toggle a user's status (active/inactive) via AJAX.
   public function changeStatus(Request $request){
 
     $user = User::find($request->user_id);
@@ -246,7 +224,6 @@ class AdminController extends Controller
 
        /////////// Admin User All Method ////////////
  
-  // List all admin users.
   public function AllAdmin(){
 
     $alladmin = User::where('role','admin')->get();
@@ -255,7 +232,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Show the form to create a new admin user (with roles).
   public function AddAdmin(){
 
     $roles = Role::all();
@@ -264,7 +240,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Store a newly created admin user and optionally assign roles.
   public function StoreAdmin(Request $request){
 
     $user = new User();
@@ -292,7 +267,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Show the form to edit an existing admin user and manage roles.
   public function EditAdmin($id){
 
     $user = User::findOrFail($id);
@@ -301,7 +275,6 @@ class AdminController extends Controller
 
   }// End Method
 
-  // Update admin user details and sync roles.
    public function UpdateAdmin(Request $request,$id){
 
     $user = User::findOrFail($id);
@@ -314,7 +287,6 @@ class AdminController extends Controller
     $user->status = 'active';
     $user->save();
 
-    // Reset existing roles, then assign the provided roles if any.
     $user->roles()->detach();
     if ($request->roles) {
         $user->assignRole($request->roles);
@@ -330,7 +302,6 @@ class AdminController extends Controller
   }// End Method 
 
 
-  // Delete an admin user by id.
   public function DeleteAdmin($id){
 
     $user = User::findOrFail($id);
@@ -350,3 +321,4 @@ class AdminController extends Controller
 
 
 }
+ 

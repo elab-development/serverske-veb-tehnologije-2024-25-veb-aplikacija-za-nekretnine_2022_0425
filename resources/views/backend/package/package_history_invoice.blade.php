@@ -55,7 +55,7 @@
                EasyShop Head Office
                Email:support@easylearningbd.com <br>
                Mob: 1245454545 <br>
-               Dhaka 1207,Dhanmondi:#4 <br>
+               Belgrade 1207,Dhanmondi:#4 <br>
               
             </pre>
         </td>
