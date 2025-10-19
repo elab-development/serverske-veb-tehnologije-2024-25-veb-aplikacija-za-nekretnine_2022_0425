@@ -21,7 +21,7 @@ class IndexController extends Controller
 {
     public function PropertyDetails($id,$slug){
 
-        $property = Property::findOrFail($id);
+        $property = Property::with(['pstate', 'type', 'user'])->findOrFail($id);
 
         $amenities = $property->amenities_id;
         $property_amen = explode(',',$amenities);

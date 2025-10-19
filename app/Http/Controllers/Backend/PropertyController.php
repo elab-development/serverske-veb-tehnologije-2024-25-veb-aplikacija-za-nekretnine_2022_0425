@@ -382,7 +382,7 @@ class PropertyController extends Controller
        public function DetailsProperty($id){
 
         $facilities = Facility::where('property_id',$id)->get();
-        $property = Property::findOrFail($id);
+        $property = Property::with(['pstate', 'type', 'user'])->findOrFail($id);
 
         $type = $property->amenities_id;
         $property_ami = explode(',', $type);

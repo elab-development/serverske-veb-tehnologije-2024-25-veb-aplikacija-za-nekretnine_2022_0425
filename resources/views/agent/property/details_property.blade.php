@@ -59,7 +59,7 @@
                 </tr>
                 <tr> 
                     <td>State </td>
-                    <td><code>{{ $property['pstate']['state_name'] }}</code></td> 
+                    <td><code>{{ $property->pstate ? $property->pstate->state_name : 'N/A' }}</code></td> 
                 </tr>
 
                  <tr> 
@@ -136,7 +136,7 @@
 
                  <tr> 
                     <td>Property Type </td>
-                    <td><code>{{ $property['type']['type_name'] }}</code></td> 
+                    <td><code>{{ $property->type ? $property->type->type_name : 'N/A' }}</code></td> 
                 </tr>
 
                  <tr> 
@@ -159,7 +159,7 @@
             @if($property->agent_id == NULL)
             <td><code> Admin </code></td>
             @else
-            <td><code> {{ $property['user']['name'] }} </code></td>
+            <td><code> {{ $property->user ? $property->user->name : 'N/A' }} </code></td>
             @endif
                      
                 </tr>
