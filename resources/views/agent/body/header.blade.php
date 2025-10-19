@@ -218,9 +218,9 @@
                     </a>
                   </li>
                   <li class="dropdown-item py-2">
-                    <a href="javascript:;" class="text-body ms-0">
+                    <a href="{{ route('agent.switch.user') }}" class="text-body ms-0">
                       <i class="me-2 icon-md" data-feather="repeat"></i>
-                      <span>Switch User</span>
+                      <span>Switch to User View</span>
                     </a>
                   </li>
                   <li class="dropdown-item py-2">

@@ -62,6 +62,8 @@ Route::middleware('auth')->group(function () {
 
  Route::get('/live/chat', [UserController::class, 'LiveChat'])->name('live.chat'); 
 
+ // Switch back to agent from user view
+ Route::get('/user/switch/back/agent', [UserController::class, 'UserSwitchBackAgent'])->name('user.switch.back.agent');
 
  // User WishlistAll Route 
 Route::controller(WishlistController::class)->group(function(){
@@ -127,6 +129,7 @@ Route::get('/agent/change/password', [AgentController::class, 'AgentChangePasswo
 
 Route::post('/agent/update/password', [AgentController::class, 'AgentUpdatePassword'])->name('agent.update.password');
 
+Route::get('/agent/switch/user', [AgentController::class, 'AgentSwitchUser'])->name('agent.switch.user');
 
 }); // End Group Agent Middleware
 

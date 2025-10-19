@@ -78,7 +78,17 @@
      <li><a href="{{ route('contact') }}"><span>Contact</span></a></li> 
     
      <li> 
-    <a href="{{ route('login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
+    @auth
+        @if(Auth::user()->role == 'agent')
+            <a href="{{ route('agent.add.property') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
+        @elseif(Auth::user()->role == 'admin')
+            <a href="{{ route('add.property') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
+        @else
+            <a href="{{ route('agent.login') }}" class="btn btn-success" title="Become an agent to add listings"><span>+</span>Add Listing</a> 
+        @endif
+    @else
+        <a href="{{ route('agent.login') }}" class="btn btn-success" title="Login as agent to add listings"><span>+</span>Add Listing</a> 
+    @endauth
 </li> 
 
 
@@ -87,7 +97,17 @@
     </nav>
 </div>
 <div class="btn-box">
-    <a href="{{ route('login') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+    @auth
+        @if(Auth::user()->role == 'agent')
+            <a href="{{ route('agent.add.property') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+        @elseif(Auth::user()->role == 'admin')
+            <a href="{{ route('add.property') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+        @else
+            <a href="{{ route('agent.login') }}" class="theme-btn btn-one" title="Become an agent to add listings"><span>+</span>Add Listing</a>
+        @endif
+    @else
+        <a href="{{ route('agent.login') }}" class="theme-btn btn-one" title="Login as agent to add listings"><span>+</span>Add Listing</a>
+    @endauth
 </div>
 </div>
 </div>
@@ -106,7 +126,17 @@
                             </nav>
                         </div>
                         <div class="btn-box">
-                            <a href="{{ route('login') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                            @auth
+                                @if(Auth::user()->role == 'agent')
+                                    <a href="{{ route('agent.add.property') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                                @elseif(Auth::user()->role == 'admin')
+                                    <a href="{{ route('add.property') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                                @else
+                                    <a href="{{ route('agent.login') }}" class="theme-btn btn-one" title="Become an agent to add listings"><span>+</span>Add Listing</a>
+                                @endif
+                            @else
+                                <a href="{{ route('agent.login') }}" class="theme-btn btn-one" title="Login as agent to add listings"><span>+</span>Add Listing</a>
+                            @endauth
                         </div>
                     </div>
                 </div>

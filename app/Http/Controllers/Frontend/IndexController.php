@@ -44,8 +44,7 @@ class IndexController extends Controller
 
         if (Auth::check()) {
             
-        PropertyMessage::insert([
-
+        PropertyMessage::create([
             'user_id' => Auth::user()->id,
             'agent_id' => $aid,
             'property_id' => $pid,
@@ -53,8 +52,9 @@ class IndexController extends Controller
             'msg_email' => $request->msg_email,
             'msg_phone' => $request->msg_phone,
             'message' => $request->message,
+            'sent_date' => Carbon::now(),
+            'status' => 'unread',
             'created_at' => Carbon::now(), 
-
         ]);
 
         $notification = array(
@@ -99,16 +99,16 @@ class IndexController extends Controller
 
         if (Auth::check()) {
             
-        PropertyMessage::insert([
-
+        PropertyMessage::create([
             'user_id' => Auth::user()->id,
             'agent_id' => $aid, 
             'msg_name' => $request->msg_name,
             'msg_email' => $request->msg_email,
             'msg_phone' => $request->msg_phone,
             'message' => $request->message,
+            'sent_date' => Carbon::now(),
+            'status' => 'unread',
             'created_at' => Carbon::now(), 
-
         ]);
 
         $notification = array(

@@ -3,6 +3,10 @@
                    
     <li class="current">  <a href="blog-details.html"><i class="fab fa fa-envelope "></i> Dashboard </a></li>
 
+    {{-- Show Switch Back to Agent if user switched from agent --}}
+    @if(session('switched_from_agent'))
+    <li><a href="{{ route('user.switch.back.agent') }}" style="background-color: #f0f8ff; border-left: 4px solid #007bff;"><i class="fa fa-exchange" aria-hidden="true"></i> <strong>Switch Back to Agent</strong></a></li>
+    @endif
 
     <li><a href="{{ route('user.profile') }}"><i class="fa fa-cog" aria-hidden="true"></i> Settings</a></li>
     <li><a href="{{ route('user.schedule.request') }}"><i class="fa fa-credit-card" aria-hidden="true"></i>Schedule Request <span class="badge badge-info">(  )</span></a></li>

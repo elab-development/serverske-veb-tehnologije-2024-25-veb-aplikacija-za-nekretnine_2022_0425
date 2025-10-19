@@ -59,6 +59,8 @@ class AgentPropertyController extends Controller
 
      public function AgentStoreProperty(Request $request){
 
+
+
         $id = Auth::user()->id;
         $uid = User::findOrFail($id);
         $nid = $uid->credit;

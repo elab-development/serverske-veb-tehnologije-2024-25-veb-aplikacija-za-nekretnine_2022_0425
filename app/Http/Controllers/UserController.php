@@ -133,6 +133,32 @@ class UserController extends Controller
 
     } // End Method 
 
+    /**
+     * Switch back to Agent dashboard from User view
+     */
+    public function UserSwitchBackAgent(){
+        
+        // Check if user actually switched from agent
+        if (!session('switched_from_agent')) {
+            $notification = array(
+                'message' => 'Access denied. You are not switching from agent.',
+                'alert-type' => 'error'
+            );
+            return redirect()->route('dashboard')->with($notification);
+        }
+        
+        // Clear switch session data
+        session()->forget(['switched_from_agent', 'original_role']);
+        
+        $notification = array(
+            'message' => 'Switched back to Agent Dashboard Successfully',
+            'alert-type' => 'success'
+        );
+
+        return redirect()->route('agent.dashboard')->with($notification);
+        
+    } // End Method 
+
 
 }
  

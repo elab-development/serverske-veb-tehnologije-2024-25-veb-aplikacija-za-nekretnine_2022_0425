@@ -377,7 +377,7 @@
                                     <div class="widget-title">
                                         <h4>Mortgage Calculator</h4>
                                     </div>
-                                    <form method="post" action="mortgage-calculator.html" class="default-form">
+                                    <form id="mortgageForm" class="default-form" onsubmit="return calculateMortgage(event)">
                                         <div class="form-group">
                                             <i class="fas fa-dollar-sign"></i>
                                             <input type="number" name="total_amount" placeholder="Total Amount">
@@ -406,6 +406,12 @@
                                             <button type="submit" class="theme-btn btn-one">Calculate Now</button>
                                         </div>
                                     </form>
+                                    
+                                    <!-- Mortgage Calculation Result -->
+                                    <div id="mortgageResult" style="display: none; margin-top: 20px; padding: 15px; background: #f8f9fa; border-radius: 5px;">
+                                        <h5>Monthly Payment: <span id="monthlyPayment" style="color: #007bff;"></span></h5>
+                                        <small class="text-muted">This is an estimate. Actual rates may vary.</small>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -504,9 +510,54 @@
         </section>
         <!-- subscribe-section end -->
 
-
-
-
-
+<script>
+function calculateMortgage(event) {
+    event.preventDefault(); // Sprečava slanje forme
+    
+    // Uzmi vrednosti iz forme
+    const totalAmount = parseFloat(document.querySelector('input[name="total_amount"]').value) || 0;
+    const downPayment = parseFloat(document.querySelector('input[name="down_payment"]').value) || 0;
+    const interestRate = parseFloat(document.querySelector('input[name="interest_rate"]').value) || 0;
+    const loanTerms = parseFloat(document.querySelector('input[name="loan"]').value) || 0;
+    
+    // Validacija
+    if (totalAmount <= 0 || loanTerms <= 0) {
+        alert('Please enter valid values for Total Amount and Loan Terms');
+        return false;
+    }
+    
+    // Izračunaj kreditan iznos
+    const loanAmount = totalAmount - downPayment;
+    
+    if (loanAmount <= 0) {
+        alert('Down payment cannot be greater than or equal to total amount');
+        return false;
+    }
+    
+    // Izračunaj mesečnu kamatu
+    const monthlyInterestRate = (interestRate / 100) / 12;
+    const numberOfPayments = loanTerms * 12;
+    
+    let monthlyPayment;
+    
+    if (interestRate === 0) {
+        // Ako nema kamate, jednostavno podeli iznos
+        monthlyPayment = loanAmount / numberOfPayments;
+    } else {
+        // Formula za mesečnu ratu
+        monthlyPayment = loanAmount * (monthlyInterestRate * Math.pow(1 + monthlyInterestRate, numberOfPayments)) / 
+                        (Math.pow(1 + monthlyInterestRate, numberOfPayments) - 1);
+    }
+    
+    // Prikaži rezultat
+    document.getElementById('monthlyPayment').textContent = '$' + monthlyPayment.toFixed(2);
+    document.getElementById('mortgageResult').style.display = 'block';
+    
+    // Skroluj do rezultata
+    document.getElementById('mortgageResult').scrollIntoView({ behavior: 'smooth' });
+    
+    return false;
+}
+</script>
 
 @endsection

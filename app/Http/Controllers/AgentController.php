@@ -149,6 +149,24 @@ public function AgentProfileStore(Request $request){
 
      }// End Method 
 
+    /**
+     * Switch User - Agent can switch to User view
+     */
+    public function AgentSwitchUser(){
+        
+        // Store agent info in session to remember original role
+        session(['original_role' => 'agent']);
+        session(['switched_from_agent' => true]);
+        
+        $notification = array(
+            'message' => 'Switched to User View Successfully. You can switch back from user dashboard.',
+            'alert-type' => 'info'
+        );
+
+        return redirect()->route('dashboard')->with($notification);
+        
+    }// End Method 
+
 
 
 }
