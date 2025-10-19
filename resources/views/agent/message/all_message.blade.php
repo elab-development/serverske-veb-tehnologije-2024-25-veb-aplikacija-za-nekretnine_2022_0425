@@ -86,7 +86,7 @@
         
         <a href="{{ route('agent.message.details',$msg->id) }}" class="email-list-detail">
           <div class="content">
-            <span class="from">{{ $msg['user']['name'] }}</span>
+            <span class="from">{{ $msg->user ? $msg->user->name : 'Unknown User' }}</span>
             <p class="msg"> {{ $msg->message }} </p>
           </div>
           <span class="date">

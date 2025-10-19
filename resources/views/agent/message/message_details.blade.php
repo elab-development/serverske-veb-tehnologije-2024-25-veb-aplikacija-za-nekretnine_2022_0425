@@ -88,17 +88,17 @@
                       <tbody>
                         <tr>
                           <th>Customer Name : </th>
-                          <td>{{ $msgdetails['user']['name'] }}</td>
+                          <td>{{ $msgdetails->user ? $msgdetails->user->name : 'Unknown User' }}</td>
                       </tr>
 
                        <tr>
                           <th>Customer Email : </th>
-                          <td>{{ $msgdetails['user']['email'] }}</td>
+                          <td>{{ $msgdetails->user ? $msgdetails->user->email : 'N/A' }}</td>
                       </tr>
 
                        <tr>
                           <th>Customer Phone  : </th>
-                          <td>{{ $msgdetails['user']['phone'] }}</td>
+                          <td>{{ $msgdetails->user ? $msgdetails->user->phone : 'N/A' }}</td>
                       </tr>
 
                        <tr>

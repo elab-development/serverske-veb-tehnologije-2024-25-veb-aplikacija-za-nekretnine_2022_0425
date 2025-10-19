@@ -526,7 +526,7 @@ public function AgentUpdatePropertyThambnail(Request $request){
     public function AgentPropertyMessage(){
 
         $id = Auth::user()->id;
-        $usermsg = PropertyMessage::where('agent_id',$id)->get();
+        $usermsg = PropertyMessage::where('agent_id',$id)->with('user')->get();
         return view('agent.message.all_message',compact('usermsg'));
 
     }// End Method  
@@ -534,9 +534,9 @@ public function AgentUpdatePropertyThambnail(Request $request){
      public function AgentMessageDetails($id){
 
         $uid = Auth::user()->id;
-        $usermsg = PropertyMessage::where('agent_id',$uid)->get();
+        $usermsg = PropertyMessage::where('agent_id',$uid)->with('user')->get();
 
-        $msgdetails = PropertyMessage::findOrFail($id);
+        $msgdetails = PropertyMessage::with('user')->findOrFail($id);
         return view('agent.message.message_details',compact('usermsg','msgdetails'));
 
     }// End Method  

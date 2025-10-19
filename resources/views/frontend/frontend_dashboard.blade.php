@@ -32,6 +32,12 @@
 
  <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.css" >
 
+<style>
+    /* Smooth scroll behavior */
+    html {
+        scroll-behavior: smooth;
+    }
+</style>
 
 </head>
 
@@ -471,6 +477,19 @@
     }
  
     /// End Compare Remove  
+    
+    // Smooth scroll to About Us section
+    $(document).ready(function() {
+        $('a[href*="#about-us"]').on('click', function(e) {
+            var target = $(this.hash);
+            if (target.length) {
+                e.preventDefault();
+                $('html, body').animate({
+                    scrollTop: target.offset().top - 80 // 80px offset for fixed header
+                }, 800, 'swing');
+            }
+        });
+    });
     
 </script>
 

@@ -29,7 +29,7 @@ public function AdminLogout(Request $request){
             'alert-type' => 'success'
         ); 
 
-        return redirect('/admin/login')->with($notification);
+        return redirect()->route('login')->with($notification);
     }// End Method 
 
 

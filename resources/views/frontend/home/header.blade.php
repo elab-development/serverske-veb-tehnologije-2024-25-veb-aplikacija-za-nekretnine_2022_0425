@@ -61,21 +61,21 @@
             <ul class="navigation clearfix">
 
      <li><a href="{{ url('/') }}"><span>Home</span></a> </li>
-     <li><a href="{{ url('/') }}"><span>About Us </span></a> </li>
+     <li><a href="{{ url('/') }}#about-us"><span>About Us </span></a> </li>
              
-<li class="dropdown"><a href="index.html"><span>Property</span></a>
+<li class="dropdown"><a href="#"><span>Property</span></a>
     <ul>
         <li><a href="{{ route('rent.property') }}">Rent Property</a></li>
         <li><a href="{{ route('buy.property') }}">Buy Property </a></li>
         
     </ul>
 </li>
-         <li><a href="{{ url('/') }}"><span>Agent </span></a> </li>       
+         <li><a href="{{ route('all.agents') }}"><span>Agent </span></a> </li>       
              
  <li><a href="{{ route('blog.list') }}"><span>Blog  </span></a> </li>
 
 
-     <li><a href="contact.html"><span>Contact</span></a></li> 
+     <li><a href="{{ route('contact') }}"><span>Contact</span></a></li> 
     
      <li> 
     <a href="{{ route('login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 

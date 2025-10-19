@@ -73,14 +73,6 @@
                 </form>
                 <div class="othre-text">
                     <p>Have not any account? <a href="signup.html">Register Now</a></p>
-                    <div class="mt-3">
-                        <small class="text-muted">
-                            <strong>Test Login Credentials:</strong><br>
-                            • Admin: <code>admin@gmail.com</code> or <code>admin</code> / <code>admin</code><br>
-                            • Agent: <code>agent@gmail.com</code> or <code>agent</code> / <code>111</code><br>
-                            • User: <code>user@gmail.com</code> or <code>user</code> / <code>user</code>
-                        </small>
-                    </div>
                 </div>
             </div>
         </div>

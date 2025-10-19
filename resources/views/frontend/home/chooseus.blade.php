@@ -1,4 +1,4 @@
- <section class="chooseus-section">
+ <section class="chooseus-section" id="about-us">
             <div class="auto-container">
                 <div class="inner-container bg-color-2">
                     <div class="upper-box clearfix">
@@ -7,7 +7,7 @@
                             <h2>Reasons To Choose Us</h2>
                         </div>
                         <div class="btn-box">
-                            <a href="categories.html" class="theme-btn btn-one">All Categories</a>
+                            <a href="{{ route('all.categories') }}" class="theme-btn btn-one">All Categories</a>
                         </div>
                     </div>
                     <div class="lower-box">

@@ -28,7 +28,7 @@ $ptype = App\Models\PropertyType::latest()->limit(5)->get();
 
  
 </ul>
-<div class="more-btn"><a href="categories.html" class="theme-btn btn-one">All Categories</a></div>
+<div class="more-btn"><a href="{{ route('all.categories') }}" class="theme-btn btn-one">All Categories</a></div>
 </div>
 </div>
 </section>

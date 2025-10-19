@@ -144,7 +144,7 @@ class IndexController extends Controller
 
     public function BuyProperty(){
 
-        $property = Property::where('status','1')->where('property_status','buy')->get();
+        $property = Property::where('status','1')->where('property_status','buy')->paginate(6);
 
         return view('frontend.property.buy_property',compact('property'));
 
@@ -178,35 +178,71 @@ class IndexController extends Controller
         $sstate = $request->state;
         $stype = $request->ptype_id;
 
-   $property = Property::where('property_name', 'like' , '%' .$item. '%')->where('property_status','buy')->with('type','pstate')
-        ->whereHas('pstate', function($q) use ($sstate){
-            $q->where('state_name','like' , '%' .$sstate. '%');
-        })
-        ->whereHas('type', function($q) use ($stype){
-            $q->where('type_name','like' , '%' .$stype. '%');
-         })
-        ->get();
+        $property = Property::where(function($query) use ($item) {
+                        $query->where('property_name', 'like' , '%' .$item. '%')
+                              ->orWhere('address', 'like' , '%' .$item. '%')
+                              ->orWhere('city', 'like' , '%' .$item. '%');
+                    })
+                    ->where('property_status','buy')
+                    ->with('type','pstate');
+
+        // Apply state filter only if state is selected
+        if (!empty($sstate) && $sstate != 'Input location') {
+            $property->whereHas('pstate', function($q) use ($sstate){
+                $q->where('state_name','like' , '%' .$sstate. '%');
+            });
+        }
+
+        // Apply property type filter only if type is selected  
+        if (!empty($stype) && $stype != 'All Type') {
+            $property->whereHas('type', function($q) use ($stype){
+                $q->where('type_name','like' , '%' .$stype. '%');
+            });
+        }
+
+        $property = $property->paginate(6)->withQueryString();
+        
+        // Debug - temporary
+        \Log::info('BUY Search Results:', [
+            'search_term' => $item,
+            'state' => $sstate, 
+            'type' => $stype,
+            'results_count' => $property->count()
+        ]);
 
         return view('frontend.property.property_search',compact('property'));
 
-    }// End Method 
+    }// End Method
 
 
-     public function RentPropertySeach(Request $request){
-
-        $request->validate(['search' => 'required']);
+     public function RentPropertySeach(Request $request){        $request->validate(['search' => 'required']);
         $item = $request->search;
         $sstate = $request->state;
         $stype = $request->ptype_id;
 
-   $property = Property::where('property_name', 'like' , '%' .$item. '%')->where('property_status','rent')->with('type','pstate')
-        ->whereHas('pstate', function($q) use ($sstate){
-            $q->where('state_name','like' , '%' .$sstate. '%');
-        })
-        ->whereHas('type', function($q) use ($stype){
-            $q->where('type_name','like' , '%' .$stype. '%');
-         })
-        ->get();
+        $property = Property::where(function($query) use ($item) {
+                        $query->where('property_name', 'like' , '%' .$item. '%')
+                              ->orWhere('address', 'like' , '%' .$item. '%')
+                              ->orWhere('city', 'like' , '%' .$item. '%');
+                    })
+                    ->where('property_status','rent')
+                    ->with('type','pstate');
+
+        // Apply state filter only if state is selected
+        if (!empty($sstate) && $sstate != 'Input location') {
+            $property->whereHas('pstate', function($q) use ($sstate){
+                $q->where('state_name','like' , '%' .$sstate. '%');
+            });
+        }
+
+        // Apply property type filter only if type is selected  
+        if (!empty($stype) && $stype != 'All Type') {
+            $property->whereHas('type', function($q) use ($stype){
+                $q->where('type_name','like' , '%' .$stype. '%');
+            });
+        }
+
+        $property = $property->paginate(6)->withQueryString();
 
         return view('frontend.property.property_search',compact('property'));
 
@@ -276,7 +312,15 @@ class IndexController extends Controller
 
     }// End Method 
 
+    public function AllAgents(){
+        $agents = User::where('role','agent')->where('status','active')->paginate(6);
+        return view('frontend.agent.all_agents',compact('agents'));
+    }// End Method 
 
+    public function AllCategories(){
+        $categories = PropertyType::all();
+        return view('frontend.property.all_categories',compact('categories'));
+    }// End Method 
 
 
 }

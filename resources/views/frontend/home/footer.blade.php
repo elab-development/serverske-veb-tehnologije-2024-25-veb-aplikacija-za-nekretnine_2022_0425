@@ -26,12 +26,12 @@
                                 </div>
                                 <div class="widget-content">
                                     <ul class="links-list class">
-                                        <li><a href="index.html">About Us</a></li>
+                                        <li><a href="{{ url('/') }}#about-us">About Us</a></li>
                                         <li><a href="index.html">Listing</a></li>
                                         <li><a href="index.html">How It Works</a></li>
                                         <li><a href="index.html">Our Services</a></li>
                                         <li><a href="index.html">Our Blog</a></li>
-                                        <li><a href="index.html">Contact Us</a></li>
+                                        <li><a href="{{ route('contact') }}">Contact Us</a></li>
                                     </ul>
                                 </div>
                             </div>

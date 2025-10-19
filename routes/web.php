@@ -19,6 +19,7 @@ use App\Http\Controllers\Agent\AgentPropertyController;
 use App\Http\Controllers\Frontend\IndexController;
 use App\Http\Controllers\Frontend\WishlistController;
 use App\Http\Controllers\Frontend\CompareController;
+use App\Http\Controllers\ContactController;
      
 /*   
 |--------------------------------------------------------------------------
@@ -419,6 +420,10 @@ Route::controller(AgentPropertyController::class)->group(function(){
  
 }); // End Group Agent Middleware
 
+// Contact Route 
+Route::get('/contact', [ContactController::class, 'Contact'])->name('contact');
+Route::post('/contact', [ContactController::class, 'StoreContact'])->name('store.contact');
+
 // Frontend Property Details All Route 
 
  Route::get('/property/details/{id}/{slug}', [IndexController::class, 'PropertyDetails']);
@@ -435,6 +440,12 @@ Route::controller(AgentPropertyController::class)->group(function(){
   Route::get('/agent/details/{id}', [IndexController::class, 'AgentDetails'])->name('agent.details');
  // Send Message from Agent Details Page 
    Route::post('/agent/details/message', [IndexController::class, 'AgentDetailsMessage'])->name('agent.details.message');
+
+   // Get All Agents
+   Route::get('/all/agents', [IndexController::class, 'AllAgents'])->name('all.agents');
+
+   // Get All Categories
+   Route::get('/all/categories', [IndexController::class, 'AllCategories'])->name('all.categories');
 
    // Get All Rent Property 
    Route::get('/rent/property', [IndexController::class, 'RentProperty'])->name('rent.property');
