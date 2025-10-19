@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Auth\Events\Registered;
 use App\Providers\RouteServiceProvider;
 
@@ -27,21 +28,39 @@ class AgentController extends Controller
 
     public function AgentRegister(Request $request){
 
+        // Korišćenje DB transakcije za sigurnu registraciju
+        DB::beginTransaction();
+        
+        try {
+            $user = User::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'password' => Hash::make($request->password),
+                'role' => 'agent',
+                'status' => 'inactive',
+            ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'phone' => $request->phone,
-            'password' => Hash::make($request->password),
-            'role' => 'agent',
-            'status' => 'inactive',
-        ]);
+            event(new Registered($user));
 
-        event(new Registered($user));
+            // Ako je sve uspešno, commit transakciju
+            DB::commit();
 
-        Auth::login($user);
+            Auth::login($user);
 
-        return redirect(RouteServiceProvider::AGENT);
+            return redirect(RouteServiceProvider::AGENT);
+
+        } catch (\Exception $e) {
+            // Ako dođe do greške, rollback transakciju
+            DB::rollback();
+            
+            $notification = array(
+                'message' => 'Error creating agent account: ' . $e->getMessage(),
+                'alert-type' => 'error'
+            );
+
+            return redirect()->back()->with($notification);
+        }
 
     }// End Method 
 

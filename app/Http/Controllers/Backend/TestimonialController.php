@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Backend;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use App\Models\PropertyType;
 use App\Models\Testimonial;
 use Intervention\Image\Facades\Image;
@@ -26,24 +27,48 @@ class TestimonialController extends Controller
 
  public function StoreTestimonials(Request $request){
 
-    $image = $request->file('image');
-    $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
-    Image::make($image)->resize(100,100)->save('upload/testimonial/'.$name_gen);
-    $save_url = 'upload/testimonial/'.$name_gen;
+    // DB transakcija za sigurno kreiranje testimonijala
+    DB::beginTransaction();
+    
+    try {
+        $image = $request->file('image');
+        $name_gen = hexdec(uniqid()).'.'.$image->getClientOriginalExtension();
+        Image::make($image)->resize(100,100)->save('upload/testimonial/'.$name_gen);
+        $save_url = 'upload/testimonial/'.$name_gen;
 
-    Testimonial::insert([
-        'name' => $request->name,
-        'position' => $request->position,
-        'message' => $request->message,
-        'image' => $save_url, 
-    ]);
+        Testimonial::insert([
+            'name' => $request->name,
+            'position' => $request->position,
+            'message' => $request->message,
+            'image' => $save_url, 
+        ]);
 
-     $notification = array(
+        // Commit transakciju ako je sve uspešno
+        DB::commit();
+
+        $notification = array(
             'message' => 'Testimonial Inserted Successfully',
             'alert-type' => 'success'
         );
 
         return redirect()->route('all.testimonials')->with($notification);
+
+    } catch (\Exception $e) {
+        // Rollback transakciju u slučaju greške
+        DB::rollback();
+        
+        // Obriši uploadovanu sliku ako je transakcija neuspanešna
+        if (isset($save_url) && file_exists(public_path($save_url))) {
+            unlink(public_path($save_url));
+        }
+
+        $notification = array(
+            'message' => 'Error creating testimonial: ' . $e->getMessage(),
+            'alert-type' => 'error'
+        );
+
+        return redirect()->back()->with($notification);
+    }
 
     }// End Method 
 
