@@ -39,16 +39,16 @@ class AuthenticatedSessionController extends Controller
             'alert-type' => 'info'
         ); 
 
-        $url = '';
         if($request->user()->role === 'admin'){
-            $url = 'admin/dashboard';
+            return redirect('/admin/dashboard')->with($notification);
         } elseif($request->user()->role === 'agent'){
-            $url = 'agent/dashboard';
+            return redirect('/agent/dashboard')->with($notification);
         } elseif($request->user()->role === 'user'){
-            $url = '/dashboard';
+            return redirect('/dashboard')->with($notification);
         }
 
-        return redirect()->intended($url)->with($notification);
+        // Fallback to home page
+        return redirect('/')->with($notification);
     } 
 
     /**

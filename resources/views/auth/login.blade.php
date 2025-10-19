@@ -1,7 +1,7 @@
   @extends('frontend.frontend_dashboard')
    @section('main')
    @section('title')
-  User Login | Easy RealEstate  
+  Login | Easy RealEstate  
 @endsection
 
   <!--Page Title-->
@@ -42,17 +42,29 @@
         <div class="tab active-tab" id="tab-1">
             <div class="inner-box">
                 <h4>Sign in</h4>
+                <p class="text-center text-muted mb-4">Login as User, Agent, or Admin</p>
+                
+                @if ($errors->any())
+                    <div class="alert alert-danger">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+                
                 <form action="{{ route('login') }}" method="post" class="default-form">
                @csrf
 
                     <div class="form-group">
-                        <label>Email/Name/Phone </label>
-                        <input type="text" name="login" id="login" required="">
+                        <label>Email/Name/Username/Phone </label>
+                        <input type="text" name="login" id="login" required="" placeholder="Enter your email, name, username or phone">
                     </div>
                      
                     <div class="form-group">
                         <label>Password</label>
-                        <input type="password" name="password" id="password" required="">
+                        <input type="password" name="password" id="password" required="" placeholder="Enter your password">
                     </div>
 
                     <div class="form-group message-btn">
@@ -61,6 +73,14 @@
                 </form>
                 <div class="othre-text">
                     <p>Have not any account? <a href="signup.html">Register Now</a></p>
+                    <div class="mt-3">
+                        <small class="text-muted">
+                            <strong>Test Login Credentials:</strong><br>
+                            • Admin: <code>admin@gmail.com</code> or <code>admin</code> / <code>admin</code><br>
+                            • Agent: <code>agent@gmail.com</code> or <code>agent</code> / <code>111</code><br>
+                            • User: <code>user@gmail.com</code> or <code>user</code> / <code>user</code>
+                        </small>
+                    </div>
                 </div>
             </div>
         </div>

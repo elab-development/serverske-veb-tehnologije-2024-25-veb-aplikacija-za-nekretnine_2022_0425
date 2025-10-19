@@ -30,9 +30,13 @@ $property = App\Models\Property::where('status','1')->where('featured','1')->lim
                                 <h6>Admin </h6>
 
            @else
-
+           @if($item->user)
            <figure class="author-thumb"><img src="{{ (!empty($item->user->photo)) ? url('upload/agent_images/'.$item->user->photo) : url('upload/no_image.jpg') }}" alt=""></figure>
                                 <h6>{{ $item->user->name }}</h6>
+           @else
+           <figure class="author-thumb"><img src="{{ url('upload/no_image.jpg') }}" alt=""></figure>
+                                <h6>No Agent</h6>
+           @endif
            @endif                     
                                 
                             </div>

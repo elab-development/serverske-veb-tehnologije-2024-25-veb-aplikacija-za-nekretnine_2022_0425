@@ -78,7 +78,7 @@
      <li><a href="contact.html"><span>Contact</span></a></li> 
     
      <li> 
-    <a href="{{ route('agent.login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
+    <a href="{{ route('login') }}" class="btn btn-success"><span>+</span>Add Listing</a> 
 </li> 
 
 
@@ -87,7 +87,7 @@
     </nav>
 </div>
 <div class="btn-box">
-    <a href="index.html" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+    <a href="{{ route('login') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
 </div>
 </div>
 </div>
@@ -106,7 +106,7 @@
                             </nav>
                         </div>
                         <div class="btn-box">
-                            <a href="index.html" class="theme-btn btn-one"><span>+</span>Add Listing</a>
+                            <a href="{{ route('login') }}" class="theme-btn btn-one"><span>+</span>Add Listing</a>
                         </div>
                     </div>
                 </div>
