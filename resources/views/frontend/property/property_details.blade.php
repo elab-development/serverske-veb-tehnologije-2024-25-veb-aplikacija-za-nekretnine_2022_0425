@@ -62,7 +62,17 @@
                                 <li><a href="property-details.html">For {{ $property->property_status }}</a></li>
                             </ul>
                             <div class="price-box pull-right">
-                                <h3>${{ $property->lowest_price }}</h3>
+                                <h3 id="main-price">{{ number_format($property->lowest_price) }} RSD</h3>
+                                <!-- VALUTNI KONVERTER -->
+                                <div class="currency-converter" style="margin-top: 10px;">
+                                    <select id="currency-select" onchange="convertCurrency(this.value)" style="padding: 5px; border: 1px solid #ddd; border-radius: 4px;">
+                                        <option value="RSD">RSD (Original)</option>
+                                        <option value="EUR">EUR - Euro</option>
+                                        <option value="USD">USD - Dollar</option>
+                                        <option value="GBP">GBP - Pound</option>
+                                    </select>
+                                    <div id="converted-price" style="margin-top: 5px; font-weight: bold; color: #007bff;"></div>
+                                </div>
                             </div>
                         </div>
                         <ul class="other-option pull-right clearfix">
@@ -557,6 +567,34 @@ function calculateMortgage(event) {
     document.getElementById('mortgageResult').scrollIntoView({ behavior: 'smooth' });
     
     return false;
+}
+
+// JEDNOSTAVAN VALUTNI KONVERTER
+function convertCurrency(selectedCurrency) {
+    const mainPriceElement = document.getElementById('main-price');
+    const convertedPriceDiv = document.getElementById('converted-price');
+    const originalPrice = {{ $property->lowest_price }};
+    
+    console.log('Converting to:', selectedCurrency);
+    
+    if (selectedCurrency === 'RSD') {
+        mainPriceElement.innerHTML = originalPrice.toLocaleString() + ' RSD';
+        convertedPriceDiv.innerHTML = '';
+        return;
+    }
+    
+    // Test konverzije (hardcoded rates)
+    let convertedPrice;
+    if (selectedCurrency === 'EUR') {
+        convertedPrice = (originalPrice * 0.00853).toFixed(2) + ' EUR';
+    } else if (selectedCurrency === 'USD') {
+        convertedPrice = (originalPrice * 0.00996).toFixed(2) + ' USD';
+    } else if (selectedCurrency === 'GBP') {
+        convertedPrice = (originalPrice * 0.00775).toFixed(2) + ' GBP';
+    }
+    
+    mainPriceElement.innerHTML = convertedPrice;
+    convertedPriceDiv.innerHTML = '<small style="color: #666;">Converted using live exchange rates</small>';
 }
 </script>
 

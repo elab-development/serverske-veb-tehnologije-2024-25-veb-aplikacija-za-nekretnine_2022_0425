@@ -350,7 +350,7 @@ class ApiController extends Controller
 
             // Poziv Google Maps Geocoding API
             $address = $property->address . ', ' . $property->city . ', Serbia';
-            
+
             // BESPLATNA ALTERNATIVA - OpenStreetMap Nominatim API
             $response = Http::get('https://nominatim.openstreetmap.org/search', [
                 'q' => $address,
